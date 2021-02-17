@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.Contracts.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Persistence.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,10 @@ namespace Persistence
         {
             services.AddDbContext<ShoppingHelperDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("ShoppingHelperConnectionString")));
+
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IShopRepository, ShopRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
             return services;
         }
