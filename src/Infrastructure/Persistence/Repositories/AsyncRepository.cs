@@ -35,7 +35,7 @@ namespace Persistence.Repositories
             return await dbContext.Set<T>().ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(Guid id)
+        public async Task<T> GetByIdAsync(int id)
         {
             return await dbContext.Set<T>().FindAsync(id);
         }
