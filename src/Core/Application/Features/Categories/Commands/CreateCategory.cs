@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Categories.Commands
 {
-    public class Create
+    public class CreateCategory
     {
-        public class Command : IRequest<int>
+        public class CreateCategoryCommand : IRequest<int>
         {
             public string Name { get; set; }
         }
 
-        public class Validator : AbstractValidator<Command>
+        public class Validator : AbstractValidator<CreateCategoryCommand>
         {
             public Validator()
             {
@@ -25,7 +25,7 @@ namespace Application.Features.Categories.Commands
             }
         }
 
-        public class Handler : IRequestHandler<Command, int>
+        public class Handler : IRequestHandler<CreateCategoryCommand, int>
         {
             private readonly ICategoryRepository categoryRepository;
             private readonly Validator validator;
@@ -36,7 +36,7 @@ namespace Application.Features.Categories.Commands
                 this.validator = new Validator();
             }
 
-            public async Task<int> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
             {
                 await this.validator.ValidateAndThrowAsync(request, cancellationToken);
                 
