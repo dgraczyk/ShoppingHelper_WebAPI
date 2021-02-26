@@ -74,9 +74,9 @@ namespace Application.UnitTests.Mocks
                     Size = 2,
                     SizeUnit = Domain.Enums.SizeUnits.kg,
                     Vendor = "TestCompany",
-                    ShopProducts = new List<ShopProduct>
+                    ProductInShops = new List<ProductInShop>
                     {
-                        new ShopProduct
+                        new ProductInShop
                         {
                             Shop = new Shop { Name = "TestShop"},
                             ShopId = 1,
@@ -98,7 +98,7 @@ namespace Application.UnitTests.Mocks
                                 }
                             }                            
                         },
-                        new ShopProduct
+                        new ProductInShop
                         {
                             Shop = new Shop { Name = "SecondTestShop"},
                             ShopId = 1,
@@ -130,9 +130,9 @@ namespace Application.UnitTests.Mocks
                     Size = 2,
                     SizeUnit = Domain.Enums.SizeUnits.kg,
                     Vendor = "TestCompany",
-                    ShopProducts = new List<ShopProduct>
+                    ProductInShops = new List<ProductInShop>
                     {
-                        new ShopProduct
+                        new ProductInShop
                         {
                             Shop = new Shop { Name = "TestShop"},
                             ShopId = 1,
@@ -154,7 +154,7 @@ namespace Application.UnitTests.Mocks
                                 }
                             }
                         },
-                        new ShopProduct
+                        new ProductInShop
                         {
                             Shop = new Shop { Name = "SecondTestShop"},
                             ShopId = 1,

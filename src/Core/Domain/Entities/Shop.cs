@@ -5,11 +5,11 @@ namespace Domain.Entities
     public class Shop : BaseEntity
     {
         public string Name { get; set; }
-        public ICollection<ShopProduct> ShopProducts { get; set; }
+        public ICollection<ProductInShop> ProductsInShop { get; set; }
 
         public Shop()
         {
-            this.ShopProducts = new List<ShopProduct>();
+            this.ProductsInShop = new List<ProductInShop>();
         }
     }
 }

@@ -25,9 +25,9 @@ namespace Application.Features.Products
             CreateMap<Product, ProductDto>()
                 .ForMember(x => x.Category, y => y.MapFrom(z => z.Category.Name))
                 .ForMember(x => x.Size, y => y.MapFrom(z => string.Join(' ', z.Size, z.SizeUnit)))
-                .ForMember(x => x.Offerts, y => y.MapFrom(z => z.ShopProducts));
+                .ForMember(x => x.Offerts, y => y.MapFrom(z => z.ProductInShops));
 
-            CreateMap<ShopProduct, ProductOffertDto>()
+            CreateMap<ProductInShop, ProductOffertDto>()
                 .ForMember(x => x.Shop, y => y.MapFrom(z => z.Shop.Name));
         }
     }

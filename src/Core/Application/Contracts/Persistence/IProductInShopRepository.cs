@@ -2,7 +2,7 @@
 
 namespace Application.Contracts.Persistence
 {
-    public interface IShopProductRepository : IAsyncRepository<ShopProduct>
+    public interface IProductInShopRepository : IAsyncRepository<ProductInShop>
     {
     }
 }

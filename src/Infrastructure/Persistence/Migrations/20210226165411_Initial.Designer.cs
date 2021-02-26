@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ShoppingHelperDbContext))]
-    [Migration("20210216171024_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210226165411_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,7 +53,7 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsPromotionPrice")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("PricePerSizeUnit")
+                    b.Property<decimal?>("PricePerSizeUnit")
                         .HasPrecision(8, 2)
                         .HasColumnType("decimal(8,2)");
 
@@ -61,20 +61,19 @@ namespace Persistence.Migrations
                         .HasPrecision(8, 2)
                         .HasColumnType("decimal(8,2)");
 
+                    b.Property<int>("ProductInShopId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PromotionConstraints")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<int>("ShopProductId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SizeUnit")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShopProductId");
+                    b.HasIndex("ProductInShopId");
 
                     b.ToTable("Prices");
                 });
@@ -94,12 +93,11 @@ namespace Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<decimal>("Size")
+                    b.Property<decimal?>("Size")
                         .HasPrecision(5, 2)
                         .HasColumnType("decimal(5,2)");
 
                     b.Property<string>("SizeUnit")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Vendor")
@@ -114,24 +112,7 @@ namespace Persistence.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Shop", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Shops");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ShopProduct", b =>
+            modelBuilder.Entity("Domain.Entities.ProductInShop", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -154,15 +135,32 @@ namespace Persistence.Migrations
                     b.ToTable("ShopProducts");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Shop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shops");
+                });
+
             modelBuilder.Entity("Domain.Entities.Price", b =>
                 {
-                    b.HasOne("Domain.Entities.ShopProduct", "ShopProduct")
+                    b.HasOne("Domain.Entities.ProductInShop", "ProductInShop")
                         .WithMany("Prices")
-                        .HasForeignKey("ShopProductId")
+                        .HasForeignKey("ProductInShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ShopProduct");
+                    b.Navigation("ProductInShop");
                 });
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
@@ -176,16 +174,16 @@ namespace Persistence.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Domain.Entities.ShopProduct", b =>
+            modelBuilder.Entity("Domain.Entities.ProductInShop", b =>
                 {
                     b.HasOne("Domain.Entities.Product", "Product")
-                        .WithMany("ShopProducts")
+                        .WithMany("ProductInShops")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Shop", "Shop")
-                        .WithMany("ShopProducts")
+                        .WithMany("ProductsInShop")
                         .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -202,17 +200,17 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
-                    b.Navigation("ShopProducts");
+                    b.Navigation("ProductInShops");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductInShop", b =>
+                {
+                    b.Navigation("Prices");
                 });
 
             modelBuilder.Entity("Domain.Entities.Shop", b =>
                 {
-                    b.Navigation("ShopProducts");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ShopProduct", b =>
-                {
-                    b.Navigation("Prices");
+                    b.Navigation("ProductsInShop");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,7 +2,7 @@
 
 namespace Domain.Entities
 {
-    public class ShopProduct : BaseEntity
+    public class ProductInShop : BaseEntity
     {
         public int ShopId { get; set; }
         public Shop Shop { get; set; }
@@ -12,20 +12,20 @@ namespace Domain.Entities
 
         public ICollection<Price> Prices { get; set; }
 
-        public ShopProduct()
+        public ProductInShop()
         {
             this.Prices = new List<Price>();
         }
 
-        public static ShopProduct CreateProductInShop(Product product, int shopId)
+        public static ProductInShop CreateProductInShop(Product product, int shopId)
         {
-            var shopProduct = new ShopProduct
+            var shopProduct = new ProductInShop
             {
                 Product = product,
                 ShopId = shopId
             };
             
-            product.ShopProducts.Add(shopProduct);
+            product.ProductInShops.Add(shopProduct);
 
             return shopProduct;
         }

@@ -15,9 +15,9 @@ namespace Persistence.Repositories
         {
             var product = await this.dbContext.Products
                 .Include(x => x.Category)              
-                .Include(x => x.ShopProducts)
+                .Include(x => x.ProductInShops)
                     .ThenInclude(x => x.Prices)                    
-                .Include(x => x.ShopProducts)
+                .Include(x => x.ProductInShops)
                     .ThenInclude(x => x.Shop)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);

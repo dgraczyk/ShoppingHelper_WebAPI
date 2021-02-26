@@ -89,12 +89,12 @@ namespace Application.Features.Products.Commands
 
         public class Handler : IRequestHandler<CreateProductCommand, int>
         {
-            private readonly IShopProductRepository shopProductRepository;
+            private readonly IProductInShopRepository shopProductRepository;
             private readonly IMapper mapper;
             private readonly Validator validator;
 
             public Handler(
-                IShopProductRepository shopProductRepository, 
+                IProductInShopRepository shopProductRepository, 
                 IShopRepository shopRepository, 
                 ICategoryRepository categoryRepository,
                 IMapper mapper)
@@ -117,7 +117,7 @@ namespace Application.Features.Products.Commands
                     CategoryId = request.CategoryId                    
                 };
 
-                var productInShop = ShopProduct.CreateProductInShop(product, request.ShopId);
+                var productInShop = ProductInShop.CreateProductInShop(product, request.ShopId);
                 
                 productInShop.AddBasePrice(mapper.Map<Price>(request.BasePrice));
 

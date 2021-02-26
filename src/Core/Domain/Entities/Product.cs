@@ -7,17 +7,17 @@ namespace Domain.Entities
     {
         public string Name { get; set; }
         public string Vendor { get; set; }
-        public decimal Size { get; set; }
-        public SizeUnits SizeUnit { get; set; }
+        public decimal? Size { get; set; }
+        public SizeUnits? SizeUnit { get; set; }
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
-        public ICollection<ShopProduct> ShopProducts { get; set; }
+        public ICollection<ProductInShop> ProductInShops { get; set; }
 
         public Product()
         {
-            this.ShopProducts = new List<ShopProduct>();
+            this.ProductInShops = new List<ProductInShop>();
         }      
     }    
 }

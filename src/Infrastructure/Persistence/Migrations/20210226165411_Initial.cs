@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,8 +41,8 @@ namespace Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Vendor = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Size = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
-                    SizeUnit = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Size = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: true),
+                    SizeUnit = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -89,28 +89,28 @@ namespace Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PriceValue = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false),
-                    PricePerSizeUnit = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false),
-                    SizeUnit = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PricePerSizeUnit = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: true),
+                    SizeUnit = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()"),
                     IsPromotionPrice = table.Column<bool>(type: "bit", nullable: false),
                     PromotionConstraints = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    ShopProductId = table.Column<int>(type: "int", nullable: false)
+                    ProductInShopId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Prices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Prices_ShopProducts_ShopProductId",
-                        column: x => x.ShopProductId,
+                        name: "FK_Prices_ShopProducts_ProductInShopId",
+                        column: x => x.ProductInShopId,
                         principalTable: "ShopProducts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Prices_ShopProductId",
+                name: "IX_Prices_ProductInShopId",
                 table: "Prices",
-                column: "ShopProductId");
+                column: "ProductInShopId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",

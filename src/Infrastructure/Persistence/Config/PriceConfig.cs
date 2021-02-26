@@ -21,7 +21,7 @@ namespace Persistence.Config
             builder.Property(x => x.PromotionConstraints)
                .HasMaxLength(500);
 
-            builder.Property(x => x.ShopProductId)
+            builder.Property(x => x.ProductInShopId)
                .IsRequired();
 
             builder.Property(x => x.Created)
