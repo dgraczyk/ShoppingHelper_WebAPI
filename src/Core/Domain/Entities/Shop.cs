@@ -6,5 +6,10 @@ namespace Domain.Entities
     {
         public string Name { get; set; }
         public ICollection<ShopProduct> ShopProducts { get; set; }
+
+        public Shop()
+        {
+            this.ShopProducts = new List<ShopProduct>();
+        }
     }
 }

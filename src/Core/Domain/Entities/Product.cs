@@ -14,5 +14,10 @@ namespace Domain.Entities
         public Category Category { get; set; }
 
         public ICollection<ShopProduct> ShopProducts { get; set; }
+
+        public Product()
+        {
+            this.ShopProducts = new List<ShopProduct>();
+        }      
     }    
 }

@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Application.Exceptions;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
@@ -46,12 +47,12 @@ namespace API.Middleware
                 //    httpStatusCode = HttpStatusCode.BadRequest;
                 //    result = badRequestException.Message;
                 //    break;
-                //case NotFoundException notFoundException:
-                //    httpStatusCode = HttpStatusCode.NotFound;
-                //    break;
-                //case Exception ex:
-                //    httpStatusCode = HttpStatusCode.BadRequest;
-                //    break;
+                case NotFoundException notFoundException:
+                    httpStatusCode = HttpStatusCode.NotFound;
+                    break;
+                    //case Exception ex:
+                    //    httpStatusCode = HttpStatusCode.BadRequest;
+                    //    break;
             }
 
             context.Response.StatusCode = (int)httpStatusCode;
