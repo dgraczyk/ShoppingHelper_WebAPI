@@ -1,11 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Config
 {
@@ -28,6 +23,9 @@ namespace Persistence.Config
                 .HasConversion<string>();
 
             builder.Property(x => x.CategoryId)
+                .IsRequired();
+
+            builder.Property(x => x.Hash)
                 .IsRequired();
         }
     }

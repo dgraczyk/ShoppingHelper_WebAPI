@@ -62,136 +62,136 @@ namespace Application.UnitTests.Mocks
             return mockRepository;
         }
 
-        public static Mock<IProductRepository> GetProductRepository()
-        {
-            var shops = new List<Product>
-            {
-                new Product
-                {
-                    Name = "TestProduct",
-                    Category = new Category { Name = "Test" },
-                    CategoryId = 1,
-                    Size = 2,
-                    SizeUnit = Domain.Enums.SizeUnits.kg,
-                    Vendor = "TestCompany",
-                    ProductInShops = new List<ProductInShop>
-                    {
-                        new ProductInShop
-                        {
-                            Shop = new Shop { Name = "TestShop"},
-                            ShopId = 1,
-                            Prices = new List<Price>
-                            {
-                                new Price
-                                {
-                                    PriceValue = 1.5m,
-                                    PricePerSizeUnit = 1,
-                                    SizeUnit = Domain.Enums.SizeUnits.g                                    
-                                },
-                                new Price
-                                {
-                                    PriceValue = 0.5m,
-                                    IsPromotionPrice = true,
-                                    PromotionConstraints = "with coupon",
-                                    PricePerSizeUnit = 0.1m,
-                                    SizeUnit = Domain.Enums.SizeUnits.g
-                                }
-                            }                            
-                        },
-                        new ProductInShop
-                        {
-                            Shop = new Shop { Name = "SecondTestShop"},
-                            ShopId = 1,
-                            Prices = new List<Price>
-                            {
-                                new Price
-                                {
-                                    PriceValue = 1.5m,
-                                    PricePerSizeUnit = 1,
-                                    SizeUnit = Domain.Enums.SizeUnits.g
-                                },
-                                new Price
-                                {
-                                    PriceValue = 0.5m,
-                                    IsPromotionPrice = true,
-                                    PromotionConstraints = "with coupon",
-                                    PricePerSizeUnit = 0.1m,
-                                    SizeUnit = Domain.Enums.SizeUnits.g
-                                }
-                            }
-                        }
-                    }
-                },
-                new Product
-                {
-                    Name = "SecondProduct",
-                    Category = new Category { Name = "Second" },
-                    CategoryId = 1,
-                    Size = 2,
-                    SizeUnit = Domain.Enums.SizeUnits.kg,
-                    Vendor = "TestCompany",
-                    ProductInShops = new List<ProductInShop>
-                    {
-                        new ProductInShop
-                        {
-                            Shop = new Shop { Name = "TestShop"},
-                            ShopId = 1,
-                            Prices = new List<Price>
-                            {
-                                new Price
-                                {
-                                    PriceValue = 1.5m,
-                                    PricePerSizeUnit = 1,
-                                    SizeUnit = Domain.Enums.SizeUnits.g
-                                },
-                                new Price
-                                {
-                                    PriceValue = 0.5m,
-                                    IsPromotionPrice = true,
-                                    PromotionConstraints = "with coupon",
-                                    PricePerSizeUnit = 0.1m,
-                                    SizeUnit = Domain.Enums.SizeUnits.g
-                                }
-                            }
-                        },
-                        new ProductInShop
-                        {
-                            Shop = new Shop { Name = "SecondTestShop"},
-                            ShopId = 1,
-                            Prices = new List<Price>
-                            {
-                                new Price
-                                {
-                                    PriceValue = 1.5m,
-                                    PricePerSizeUnit = 1,
-                                    SizeUnit = Domain.Enums.SizeUnits.g
-                                },
-                                new Price
-                                {
-                                    PriceValue = 0.5m,
-                                    IsPromotionPrice = true,
-                                    PromotionConstraints = "with coupon",
-                                    PricePerSizeUnit = 0.1m,
-                                    SizeUnit = Domain.Enums.SizeUnits.g
-                                }
-                            }
-                        }
-                    }
-                },
-            };
+        //public static Mock<IProductRepository> GetProductRepository()
+        //{
+        //    var shops = new List<Product>
+        //    {
+        //        new Product
+        //        {
+        //            Name = "TestProduct",
+        //            Category = new Category { Name = "Test" },
+        //            CategoryId = 1,
+        //            Size = 2,
+        //            SizeUnit = Domain.Enums.SizeUnits.kg,
+        //            Vendor = "TestCompany",
+        //            ProductInShops = new List<ProductInShop>
+        //            {
+        //                new ProductInShop
+        //                {
+        //                    Shop = new Shop { Name = "TestShop"},
+        //                    ShopId = 1,
+        //                    Prices = new List<Price>
+        //                    {
+        //                        new Price
+        //                        {
+        //                            PriceValue = 1.5m,
+        //                            PricePerSizeUnit = 1,
+        //                            SizeUnit = Domain.Enums.SizeUnits.g                                    
+        //                        },
+        //                        new Price
+        //                        {
+        //                            PriceValue = 0.5m,
+        //                            IsPromotionPrice = true,
+        //                            PromotionConstraints = "with coupon",
+        //                            PricePerSizeUnit = 0.1m,
+        //                            SizeUnit = Domain.Enums.SizeUnits.g
+        //                        }
+        //                    }                            
+        //                },
+        //                new ProductInShop
+        //                {
+        //                    Shop = new Shop { Name = "SecondTestShop"},
+        //                    ShopId = 1,
+        //                    Prices = new List<Price>
+        //                    {
+        //                        new Price
+        //                        {
+        //                            PriceValue = 1.5m,
+        //                            PricePerSizeUnit = 1,
+        //                            SizeUnit = Domain.Enums.SizeUnits.g
+        //                        },
+        //                        new Price
+        //                        {
+        //                            PriceValue = 0.5m,
+        //                            IsPromotionPrice = true,
+        //                            PromotionConstraints = "with coupon",
+        //                            PricePerSizeUnit = 0.1m,
+        //                            SizeUnit = Domain.Enums.SizeUnits.g
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        },
+        //        new Product
+        //        {
+        //            Name = "SecondProduct",
+        //            Category = new Category { Name = "Second" },
+        //            CategoryId = 1,
+        //            Size = 2,
+        //            SizeUnit = Domain.Enums.SizeUnits.kg,
+        //            Vendor = "TestCompany",
+        //            ProductInShops = new List<ProductInShop>
+        //            {
+        //                new ProductInShop
+        //                {
+        //                    Shop = new Shop { Name = "TestShop"},
+        //                    ShopId = 1,
+        //                    Prices = new List<Price>
+        //                    {
+        //                        new Price
+        //                        {
+        //                            PriceValue = 1.5m,
+        //                            PricePerSizeUnit = 1,
+        //                            SizeUnit = Domain.Enums.SizeUnits.g
+        //                        },
+        //                        new Price
+        //                        {
+        //                            PriceValue = 0.5m,
+        //                            IsPromotionPrice = true,
+        //                            PromotionConstraints = "with coupon",
+        //                            PricePerSizeUnit = 0.1m,
+        //                            SizeUnit = Domain.Enums.SizeUnits.g
+        //                        }
+        //                    }
+        //                },
+        //                new ProductInShop
+        //                {
+        //                    Shop = new Shop { Name = "SecondTestShop"},
+        //                    ShopId = 1,
+        //                    Prices = new List<Price>
+        //                    {
+        //                        new Price
+        //                        {
+        //                            PriceValue = 1.5m,
+        //                            PricePerSizeUnit = 1,
+        //                            SizeUnit = Domain.Enums.SizeUnits.g
+        //                        },
+        //                        new Price
+        //                        {
+        //                            PriceValue = 0.5m,
+        //                            IsPromotionPrice = true,
+        //                            PromotionConstraints = "with coupon",
+        //                            PricePerSizeUnit = 0.1m,
+        //                            SizeUnit = Domain.Enums.SizeUnits.g
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        },
+        //    };
 
-            var mockRepository = new Mock<IProductRepository>();
-            mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(shops);
-            mockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(shops[0]);
-            mockRepository.Setup(repo => repo.GetProductWithPrices(It.IsAny<int>())).ReturnsAsync(shops[0]);
-            mockRepository.Setup(repo => repo.AddAsync(It.IsAny<Product>())).ReturnsAsync(
-                (Product product) =>
-                {
-                    shops.Add(product);
-                    return product;
-                });
+        //    var mockRepository = new Mock<IProductRepository>();
+        //    mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(shops);
+        //    mockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(shops[0]);
+        //    mockRepository.Setup(repo => repo.GetProductWithPrices(It.IsAny<int>())).ReturnsAsync(shops[0]);
+        //    mockRepository.Setup(repo => repo.AddAsync(It.IsAny<Product>())).ReturnsAsync(
+        //        (Product product) =>
+        //        {
+        //            shops.Add(product);
+        //            return product;
+        //        });
 
-            return mockRepository;
-        }
+        //    return mockRepository;
+        //}
     }
 }

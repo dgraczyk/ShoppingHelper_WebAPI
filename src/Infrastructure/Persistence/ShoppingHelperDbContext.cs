@@ -10,7 +10,7 @@ namespace Persistence
         public DbSet<Shop> Shops { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Price> Prices { get; set; }
-        public DbSet<ProductInShop> ShopProducts { get; set; }
+        public DbSet<ProductInShop> ProductsInShops { get; set; }
 
         public ShoppingHelperDbContext(DbContextOptions options) : base(options)
         {

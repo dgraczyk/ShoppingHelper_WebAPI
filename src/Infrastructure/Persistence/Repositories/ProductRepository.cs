@@ -24,5 +24,10 @@ namespace Persistence.Repositories
 
             return product;
         }
+
+        public async Task<bool> DoesProductExist(Product product)
+        {
+            return await this.dbContext.Products.AnyAsync(x => x.Hash == product.Hash);
+        }
     }
 }

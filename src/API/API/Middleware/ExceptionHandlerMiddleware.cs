@@ -43,10 +43,10 @@ namespace API.Middleware
                     httpStatusCode = HttpStatusCode.BadRequest;
                     result = JsonConvert.SerializeObject(validationException.Errors);
                     break;
-                //case BadRequestException badRequestException:
-                //    httpStatusCode = HttpStatusCode.BadRequest;
-                //    result = badRequestException.Message;
-                //    break;
+                case BadRequestException badRequestException:
+                    httpStatusCode = HttpStatusCode.BadRequest;
+                    result = badRequestException.Message;
+                    break;
                 case NotFoundException notFoundException:
                     httpStatusCode = HttpStatusCode.NotFound;
                     break;

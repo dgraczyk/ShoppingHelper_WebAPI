@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Persistence;
+using Application.Exceptions;
 using Application.Extensions;
 using Application.Features.Products.Commands.DTO;
 using AutoMapper;
@@ -29,21 +30,17 @@ namespace Application.Features.Products.Commands
 
         public class Validator : AbstractValidator<CreateProductCommand>
         {
-            private readonly IShopRepository shopRepository;
-            private readonly ICategoryRepository categoryRepository;
-
-            public Validator(IShopRepository shopRepository, ICategoryRepository categoryRepository)
+            public Validator()
             {
-                this.shopRepository = shopRepository;
-                this.categoryRepository = categoryRepository;
-
                 RuleFor(x => x.Name)
+                    .Cascade(CascadeMode.Stop)
                     .NotNull()
                     .NotEmpty()
                     .MinimumLength(2)
                     .MaximumLength(100);
 
                 RuleFor(x => x.Vendor)
+                    .Cascade(CascadeMode.Stop)
                     .NotNull()
                     .NotEmpty()
                     .MinimumLength(2)
@@ -66,56 +63,62 @@ namespace Application.Features.Products.Commands
                 });
 
                 RuleFor(x => x.CategoryId)
-                    .MustAsync(this.CategoryExist)
-                    .WithMessage("Category doesn't exist");
+                    .GreaterThan(0);
 
                 RuleFor(x => x.ShopId)
-                    .MustAsync(this.ShopExist)
-                    .WithMessage("Shop doesn't exist");
-            }
-
-            private async Task<bool> CategoryExist(int categoryId, CancellationToken token)
-            {
-                var category = await this.categoryRepository.GetByIdAsync(categoryId);
-                return category != null;
-            }
-
-            private async Task<bool> ShopExist(int shopId, CancellationToken token)
-            {
-                var shop = await this.shopRepository.GetByIdAsync(shopId);
-                return shop != null;
+                    .GreaterThan(0);
             }
         }
 
         public class Handler : IRequestHandler<CreateProductCommand, int>
         {
-            private readonly IProductInShopRepository shopProductRepository;
+            private readonly IProductInShopRepository productInShopRepository;
+            private readonly IProductRepository productRepository;
+            private readonly IShopRepository shopRepository;
+            private readonly ICategoryRepository categoryRepository;
             private readonly IMapper mapper;
             private readonly Validator validator;
 
             public Handler(
                 IProductInShopRepository shopProductRepository, 
+                IProductRepository productRepository,
                 IShopRepository shopRepository, 
                 ICategoryRepository categoryRepository,
                 IMapper mapper)
             {   
-                this.shopProductRepository = shopProductRepository;
+                this.productInShopRepository = shopProductRepository;
+                this.productRepository = productRepository;
+                this.shopRepository = shopRepository;
+                this.categoryRepository = categoryRepository;
                 this.mapper = mapper;
-                this.validator = new Validator(shopRepository, categoryRepository);
+                this.validator = new Validator();
             }
 
             public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
             {
                 await this.validator.ValidateAndThrowAsync(request, cancellationToken);
 
-                var product = new Product
+                if(await this.categoryRepository.GetByIdAsync(request.CategoryId) == null)
                 {
-                    Name = request.Name,
-                    Vendor = request.Vendor,
-                    Size = request.Size.Value,
-                    SizeUnit = request.Size.Unit.ToEnum<SizeUnits>(),
-                    CategoryId = request.CategoryId                    
-                };
+                    throw new NotFoundException(nameof(Category));
+                }
+
+                if (await this.shopRepository.GetByIdAsync(request.ShopId) == null)
+                {
+                    throw new NotFoundException(nameof(Shop));
+                }
+
+                var product = new Product(request.Name, request.Vendor, request.Size?.Value, request.Size?.Unit.ToEnum<SizeUnits>(), request.CategoryId);
+
+                if(await this.productRepository.DoesProductExist(product))
+                {
+                    throw new BadRequestException($"Product '{product.Name}({product.Vendor})' already exist.");
+                }
+
+                if (await this.productInShopRepository.DoesProductExistInShop(product, request.ShopId))
+                {
+                    throw new BadRequestException($"Product '{product.Name}({product.Vendor})' already exist in shop.");
+                }
 
                 var productInShop = ProductInShop.CreateProductInShop(product, request.ShopId);
                 
@@ -126,7 +129,7 @@ namespace Application.Features.Products.Commands
                     productInShop.AddPromotionPrice(mapper.Map<Price>(request.PromotionPrice));
                 }
 
-                await this.shopProductRepository.AddAsync(productInShop);
+                await this.productInShopRepository.AddAsync(productInShop);
 
                 return product.Id;
             }

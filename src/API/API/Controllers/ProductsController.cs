@@ -21,5 +21,12 @@ namespace API.Controllers
             var response = await Mediator.Send(createCommand);
             return Ok(response);
         }
+
+        [HttpPost("prices")]
+        public async Task<ActionResult> CreatePrice([FromBody] AddPriceToProduct.AddPriceToProductCommand command)
+        {
+            await Mediator.Send(command);
+            return Ok();
+        }       
     }
 }
