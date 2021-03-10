@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Application.Contracts.Persistence
@@ -7,5 +8,6 @@ namespace Application.Contracts.Persistence
     {
         Task<Product> GetProductWithPrices(int id);
         Task<bool> DoesProductExist(Product product);
+        Task<IReadOnlyList<Product>> GetProductsByCategoryName(string categoryName);
     }
 }

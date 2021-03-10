@@ -15,6 +15,13 @@ namespace API.Controllers
             return Ok(dto);
         }
 
+        [HttpGet]
+        public async Task<ActionResult<ProductDto>> GetProductsByCategoryName([FromQuery] GetProductsByCategoryName.Query query)
+        {
+            var items = await Mediator.Send(query);
+            return Ok(items);
+        }
+
         [HttpPost]
         public async Task<ActionResult<int>> Create([FromBody] CreateProduct.CreateProductCommand createCommand)
         {

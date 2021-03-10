@@ -1,6 +1,8 @@
 ﻿using Application.Contracts.Persistence;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Persistence.Repositories
@@ -28,6 +30,14 @@ namespace Persistence.Repositories
         public async Task<bool> DoesProductExist(Product product)
         {
             return await this.dbContext.Products.AnyAsync(x => x.Hash == product.Hash);
+        }
+
+        public async Task<IReadOnlyList<Product>> GetProductsByCategoryName(string categoryName)
+        {
+            return await this.dbContext.Products                
+                .Where(x => x.Category.Name == categoryName)
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }
