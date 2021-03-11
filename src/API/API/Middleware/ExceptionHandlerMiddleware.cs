@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -41,7 +42,7 @@ namespace API.Middleware
             {
                 case ValidationException validationException:
                     httpStatusCode = HttpStatusCode.BadRequest;
-                    result = JsonConvert.SerializeObject(validationException.Errors);
+                    result = JsonConvert.SerializeObject(validationException.Errors.SelectMany(x => x.ErrorMessage));
                     break;
                 case BadRequestException badRequestException:
                     httpStatusCode = HttpStatusCode.BadRequest;
@@ -50,9 +51,9 @@ namespace API.Middleware
                 case NotFoundException notFoundException:
                     httpStatusCode = HttpStatusCode.NotFound;
                     break;
-                    //case Exception ex:
-                    //    httpStatusCode = HttpStatusCode.BadRequest;
-                    //    break;
+                case Exception:
+                    httpStatusCode = HttpStatusCode.BadRequest;
+                    break;
             }
 
             context.Response.StatusCode = (int)httpStatusCode;

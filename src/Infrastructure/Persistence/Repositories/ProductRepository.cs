@@ -39,5 +39,13 @@ namespace Persistence.Repositories
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        public async Task<IReadOnlyList<Product>> GetProductsByName(string name)
+        {
+            return await this.dbContext.Products
+                .Where(x => x.Name.Contains(name))
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }
