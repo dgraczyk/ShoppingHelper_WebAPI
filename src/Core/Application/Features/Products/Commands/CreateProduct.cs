@@ -32,6 +32,12 @@ namespace Application.Features.Products.Commands
         {
             public Validator()
             {
+                RuleFor(x => x.CategoryId)
+                   .GreaterThan(0);
+
+                RuleFor(x => x.ShopId)
+                    .GreaterThan(0);
+
                 RuleFor(x => x.Name)
                     .Cascade(CascadeMode.Stop)
                     .NotNull()
@@ -61,12 +67,6 @@ namespace Application.Features.Products.Commands
                     RuleFor(x => x.PromotionPrice)
                         .SetValidator(new PromotionPriceDto.Validator());
                 });
-
-                RuleFor(x => x.CategoryId)
-                    .GreaterThan(0);
-
-                RuleFor(x => x.ShopId)
-                    .GreaterThan(0);
             }
         }
 

@@ -32,14 +32,6 @@ namespace Persistence.Repositories
             return await this.dbContext.Products.AnyAsync(x => x.Hash == product.Hash);
         }
 
-        public async Task<IReadOnlyList<Product>> GetProductsByCategoryName(string categoryName)
-        {
-            return await this.dbContext.Products                
-                .Where(x => x.Category.Name == categoryName)
-                .AsNoTracking()
-                .ToListAsync();
-        }
-
         public async Task<IReadOnlyList<Product>> GetProductsByName(string name)
         {
             return await this.dbContext.Products

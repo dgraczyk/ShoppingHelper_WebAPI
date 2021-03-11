@@ -42,7 +42,7 @@ namespace API.Middleware
             {
                 case ValidationException validationException:
                     httpStatusCode = HttpStatusCode.BadRequest;
-                    result = JsonConvert.SerializeObject(validationException.Errors.SelectMany(x => x.ErrorMessage));
+                    result = JsonConvert.SerializeObject(validationException.Errors.Select(x => x.ErrorMessage));
                     break;
                 case BadRequestException badRequestException:
                     httpStatusCode = HttpStatusCode.BadRequest;

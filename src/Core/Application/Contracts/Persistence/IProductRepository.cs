@@ -8,7 +8,6 @@ namespace Application.Contracts.Persistence
     {
         Task<Product> GetProductWithPrices(int id);
         Task<bool> DoesProductExist(Product product);
-        Task<IReadOnlyList<Product>> GetProductsByCategoryName(string categoryName);
         Task<IReadOnlyList<Product>> GetProductsByName(string name);
     }
 }

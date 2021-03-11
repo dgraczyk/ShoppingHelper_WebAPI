@@ -12,6 +12,7 @@ namespace API.Controllers
         public async Task<ActionResult<ProductDto>> GetProductDetails(int id)
         {
             var dto = await Mediator.Send(new GetProductDetails.Query { Id = id });
+
             return Ok(dto);
         }
         
@@ -19,6 +20,7 @@ namespace API.Controllers
         public async Task<ActionResult<ProductDto>> GetProducts([FromQuery] GetProducts.Query query)
         {
             var items = await Mediator.Send(query);
+
             return Ok(items);
         }
 
@@ -27,14 +29,17 @@ namespace API.Controllers
         {
             var response = await Mediator.Send(createCommand);
 
-            return CreatedAtAction(nameof(GetProductDetails), new { id = response });
+            return CreatedAtAction(nameof(GetProductDetails), new { id = response }, response);
         }
 
-        [HttpPost("prices")]
-        public async Task<ActionResult> CreatePrice([FromBody] AddPriceToProduct.AddPriceToProductCommand command)
+        [HttpPost("{id}/prices")]
+        public async Task<ActionResult> CreatePrice(int id, [FromBody] AddPriceToProduct.AddPriceToProductCommand command)
         {
+            command.ProductId = id;
+
             await Mediator.Send(command);
-            return Ok();
+
+            return CreatedAtAction(nameof(GetProductDetails), new { id }, null);
         }       
     }
 }
