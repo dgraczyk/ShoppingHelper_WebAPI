@@ -1,12 +1,11 @@
-using Domain.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Persistence;
 using Serilog;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace API
@@ -35,20 +34,11 @@ namespace API
                     var services = scope.ServiceProvider;
 
                     var dbContext = services.GetRequiredService<ShoppingHelperDbContext>();
+                    var logger = services.GetRequiredService<ILogger<ShoppingHelperContextSeed>>();
 
                     dbContext.Database.EnsureCreated();
 
-                    if (!dbContext.Categories.Any())
-                    {
-                        dbContext.Categories.AddRange(new Category { Name = "Makarony" }, new Category { Name = "Sosy" });
-                    }
-
-                    if (!dbContext.Shops.Any())
-                    {
-                        dbContext.Shops.AddRange(new Shop { Name = "Lidl" }, new Shop { Name = "Biedronka" });
-                    }
-
-                    await dbContext.SaveChangesAsync();
+                    await ShoppingHelperContextSeed.SeedAsync(dbContext, logger);
                 }
 
                 host.Run();

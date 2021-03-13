@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Persistence;
 using System.Linq;
 using System.Net.Http;
@@ -15,7 +16,7 @@ namespace API.IntegrationTests.Helpers
         {
             builder.UseEnvironment("Testing");
 
-            builder.ConfigureServices(services =>
+            builder.ConfigureServices(async services =>
             {
                 // remove the existing DbContextOptions configuration
                 var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ShoppingHelperDbContext>));
@@ -33,11 +34,12 @@ namespace API.IntegrationTests.Helpers
                 using (var scope = sp.CreateScope())
                 {
                     var scopedServices = scope.ServiceProvider;
-                    var context = scopedServices.GetRequiredService<ShoppingHelperDbContext>();                    
+                    var context = scopedServices.GetRequiredService<ShoppingHelperDbContext>();
+                    var logger = scopedServices.GetRequiredService<ILogger<ShoppingHelperContextSeed>>();
 
-                    if(context.Database.EnsureCreated())
+                    if (context.Database.EnsureCreated())
                     {
-                        DatabaseHelper.InitializeDatabaseForTests(context);
+                        await ShoppingHelperContextSeed.SeedAsync(context, logger);
                     }
                 };
             });
