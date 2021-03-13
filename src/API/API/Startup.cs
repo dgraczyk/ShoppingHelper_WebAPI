@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Persistence;
+using Serilog;
 
 namespace API
 {
@@ -46,6 +47,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseSerilogRequestLogging();
 
             app.UseCustomExceptionHandler();
 

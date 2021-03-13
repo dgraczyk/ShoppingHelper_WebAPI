@@ -1,6 +1,7 @@
 ﻿using Application.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -12,16 +13,18 @@ namespace API.Middleware
     public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
+        private ILogger<ExceptionHandlerMiddleware> logger;
 
         public ExceptionHandlerMiddleware(RequestDelegate next)
         {
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, ILogger<ExceptionHandlerMiddleware> logger)
         {
             try
             {
+                this.logger = logger;
                 await _next(context);
             }
             catch (Exception ex)
@@ -62,6 +65,8 @@ namespace API.Middleware
             {
                 result = JsonConvert.SerializeObject(new { error = exception.Message });
             }
+
+            this.logger.LogError(result);
 
             return context.Response.WriteAsync(result);
         }
